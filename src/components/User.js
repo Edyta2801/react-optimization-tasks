@@ -1,6 +1,6 @@
 import React from "react";
 
-class User extends React.PureComponent {
+// class User extends React.PureComponent {
 
 // shouldComponentUpdate(nextProps, nextState){
 // if(this.props.user.login.uuid===nextProps.user.login.uuid)
@@ -10,25 +10,32 @@ class User extends React.PureComponent {
 //   }
 
 
-  render() {
-    const { user } = this.props;
+//   render() {
+//     const { user } = this.props;
 
-    return (
-      <div className="users__user">
-        <div className="users__user-name">{user.name.first}</div>
-        <div className="users__user-surname">{user.name.last}</div>
-      </div>
-    );
-  }
-}
-
-// function User({ user }) {
-//   return (
-//     <div className="users__user">
-//       <div className="users__user-name">{user.name.first}</div>
-//       <div className="users__user-surname">{user.name.last}</div>
-//     </div>
-//   );
+//     return (
+//       <div className="users__user">
+//         <div className="users__user-name">{user.name.first}</div>
+//         <div className="users__user-surname">{user.name.last}</div>
+//       </div>
+//     );
+//   }
 // }
 
-export default User;
+function User({ user }) {
+  return (
+    <div className="users__user">
+      <div className="users__user-name">{user.name.first}</div>
+      <div className="users__user-surname">{user.name.last}</div>
+    </div>
+  );
+}
+
+function areEqual(prevProps, nextProps){
+if(prevProps.user.login.uuid===nextProps.user.login.uuid){
+  return true;
+}
+return false;
+}
+
+export default React.memo(User, areEqual);
