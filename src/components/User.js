@@ -1,13 +1,13 @@
 import React from "react";
 
-class User extends React.Component {
+class User extends React.PureComponent {
 
-shouldComponentUpdate(nextProps, nextState){
-if(this.props.user.login.uuid===nextProps.user.login.uuid)
-return false;
+// shouldComponentUpdate(nextProps, nextState){
+// if(this.props.user.login.uuid===nextProps.user.login.uuid)
+// return false;
 
-return false;
-  }
+// return false;
+//   }
 
 
   render() {
