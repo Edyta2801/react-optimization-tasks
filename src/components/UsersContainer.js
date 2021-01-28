@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import UsersList from "./UsersList";
+import users from '../data/users';
+import user from '../data/user';
 
 class UsersContainer extends Component {
   state = { users: [] };
@@ -19,9 +21,17 @@ componentDidMount(){
  handleRefresh=()=>{
      this.fetchData();
  }
+
+ insertNewUser=()=>{
+     const newUsers=this.state.users;
+     newUsers.unshift(user)
+     this.setState({users:newUsers});
+ }
 render(){
     const{users}=this.state;
-    return<UsersList users={users} onRefresh={this.handleRefresh}/>
+    return<UsersList users={users} onRefresh={this.handleRefresh}
+        onInsert={this.insertNewUser}
+    />
 }
 
 }

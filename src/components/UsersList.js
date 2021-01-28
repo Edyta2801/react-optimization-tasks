@@ -13,11 +13,12 @@ function renderClb(
     console.log(id, phase, actualDuration, baseDuration, startTime, interactions);
 }
 
-function UsersList({ users, onRefresh }) {
+function UsersList({ users, onRefresh, onInsert }) {
   return (
     <Profiler id="UsersList" onRender={renderClb}>
       <div className="users">
         <button onClick={onRefresh}>refresh</button>
+        <button onClick={onInsert}>insert new user</button>
         {users.map((user) => (
           <User key={user.login.uuid} user={user} />
         ))}
