@@ -1,6 +1,8 @@
-import React, { Profiler, useMemo, useCallback } from "react";
+import React, { Profiler, useMemo, useCallback, Suspense } from "react";
 import User from "./User";
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
+
+const Pagination = React.lazy(() => import("./Pagination"));
 
 function renderClb(
   id, // the "id" prop of the Profiler tree that has just committed
@@ -17,21 +19,30 @@ function renderClb(
 const resultsPerPage = 5;
 
 function UsersList({ users, onRefresh, onInsert }) {
-  const pagination = useMemo(() => ({
-    page: 1,
-    allPages: Math.ceil(users.length / resultsPerPage),
-  }), [users]);
+  const pagination = useMemo(
+    () => ({
+      page: 1,
+      allPages: Math.ceil(users.length / resultsPerPage),
+    }),
+    [users]
+  );
 
-const handlePageChange=useCallback(()=>{
-  console.log(users.length)
-}, [users]);
+  const handlePageChange = useCallback(() => {
+    console.log(users.length);
+  }, [users]);
 
   return (
     <Profiler id="UsersList" onRender={renderClb}>
       <div className="users">
         <button onClick={onRefresh}>refresh</button>
         <button onClick={onInsert}>insert new user</button>
-        <Pagination onPageChange={handlePageChange} page={pagination.page} allPages={pagination.allPages} />
+        <Suspense fallback={<p>Loading...</p>}>
+          <Pagination
+            onPageChange={handlePageChange}
+            page={pagination.page}
+            allPages={pagination.allPages}
+          />
+        </Suspense>
         {users.map((user) => (
           <User key={user.login.uuid} user={user} />
         ))}
