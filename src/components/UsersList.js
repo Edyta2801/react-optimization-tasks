@@ -1,5 +1,6 @@
-import React, { Profiler } from "react";
+import React, { Profiler, useMemo } from "react";
 import User from "./User";
+import Pagination from "./Pagination";
 
 function renderClb(
   id, // the "id" prop of the Profiler tree that has just committed
@@ -10,15 +11,22 @@ function renderClb(
   commitTime, // when React committed this update
   interactions // the Set of interactions belonging to this update
 ) {
-    console.log(id, phase, actualDuration, baseDuration, startTime, interactions);
+  console.log(id, phase, actualDuration, baseDuration, startTime, interactions);
 }
 
+const resultsPerPage = 5;
+
 function UsersList({ users, onRefresh, onInsert }) {
+  const pagination = useMemo(() => ({
+    page: 1,
+    allPages: Math.ceil(users.length / resultsPerPage),
+  }), [users]);
   return (
     <Profiler id="UsersList" onRender={renderClb}>
       <div className="users">
         <button onClick={onRefresh}>refresh</button>
         <button onClick={onInsert}>insert new user</button>
+        <Pagination page={pagination.page} allPages={pagination.allPages} />
         {users.map((user) => (
           <User key={user.login.uuid} user={user} />
         ))}
