@@ -1,4 +1,4 @@
-import React, { Profiler, useMemo } from "react";
+import React, { Profiler, useMemo, useCallback } from "react";
 import User from "./User";
 import Pagination from "./Pagination";
 
@@ -21,12 +21,17 @@ function UsersList({ users, onRefresh, onInsert }) {
     page: 1,
     allPages: Math.ceil(users.length / resultsPerPage),
   }), [users]);
+
+const handlePageChange=useCallback(()=>{
+  console.log(users.length)
+}, [users]);
+
   return (
     <Profiler id="UsersList" onRender={renderClb}>
       <div className="users">
         <button onClick={onRefresh}>refresh</button>
         <button onClick={onInsert}>insert new user</button>
-        <Pagination page={pagination.page} allPages={pagination.allPages} />
+        <Pagination onPageChange={handlePageChange} page={pagination.page} allPages={pagination.allPages} />
         {users.map((user) => (
           <User key={user.login.uuid} user={user} />
         ))}
